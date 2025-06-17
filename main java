@@ -1,0 +1,70 @@
+import javax.swing.JOptionPane;
+
+public class Main {
+    public static void main(String[] args) {
+        MessageApp app = new MessageApp();
+
+        // Add test data
+        SentMessage msg1 = new SentMessage("+27834557896", "Did you get the cake?");
+        StoredMessage msg2 = new StoredMessage("+27838884567", "Where are you? You are late! I have asked you to be on time.");
+        DisregardedMessage msg3 = new DisregardedMessage("+27834484567", "Yohoooo, I am at your gate.");
+
+        app.addMessage(msg1);
+        app.addMessage(msg2);
+        app.addMessage(msg3);
+
+        // Menu Loop
+        String[] options = {
+                "1. View Sent Messages",
+                "2. View Longest Sent Message",
+                "3. Search by Message ID",
+                "4. Search by Recipient",
+                "5. Delete by Hash",
+                "6. Report All Sent Messages",
+                "7. Exit"
+        };
+
+        while (true) {
+            String choice = (String) JOptionPane.showInputDialog(null,
+                    "Choose an option:",
+                    "Message App",
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    options,
+                    options[0]);
+
+            if (choice == null || choice.startsWith("7")) break;
+
+            switch (choice.charAt(0)) {
+                case '1':
+                    JOptionPane.showMessageDialog(null, app.viewSentMessages());
+                    break;
+                case '2':
+                    JOptionPane.showMessageDialog(null, app.viewLongestSent());
+                    break;
+                case '3':
+                    String id = JOptionPane.showInputDialog("Enter message ID:");
+                    JOptionPane.showMessageDialog(null, app.searchById(id));
+                    break;
+                case '4':
+                    String rec = JOptionPane.showInputDialog("Enter recipient number:");
+                    JOptionPane.showMessageDialog(null, app.searchByRecipient(rec));
+                    break;
+                case '5':
+                    String h = JOptionPane.showInputDialog("Enter message hash:");
+                    try {
+                        int hash = Integer.parseInt(h);
+                        JOptionPane.showMessageDialog(null, app.deleteByHash(hash));
+                    } catch (NumberFormatException e) {
+                        JOptionPane.showMessageDialog(null, "Invalid hash.");
+                    }
+                    break;
+                case '6':
+                    JOptionPane.showMessageDialog(null, app.viewSentMessages());
+                    break;
+            }
+        }
+
+        JOptionPane.showMessageDialog(null, "Thank you for using the Message App!");
+    }
+}

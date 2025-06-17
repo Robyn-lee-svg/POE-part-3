@@ -1,0 +1,61 @@
+import java.util.ArrayList;
+import java.util.List;
+
+public class MessageApp {
+    private List<SentMessage> sentMessages = new ArrayList<>();
+    private List<StoredMessage> storedMessages = new ArrayList<>();
+    private List<DisregardedMessage> disregardedMessages = new ArrayList<>();
+
+    public void addMessage(Message message) {
+        if (message instanceof SentMessage) sentMessages.add((SentMessage) message);
+        else if (message instanceof StoredMessage) storedMessages.add((StoredMessage) message);
+        else if (message instanceof DisregardedMessage) disregardedMessages.add((DisregardedMessage) message);
+    }
+
+    public String viewSentMessages() {
+        if (sentMessages.isEmpty()) return "No sent messages.";
+        StringBuilder sb = new StringBuilder();
+        for (SentMessage m : sentMessages) {
+            sb.append(m).append("\n\n");
+        }
+        return sb.toString();
+    }
+
+    public String viewLongestSent() {
+        if (sentMessages.isEmpty()) return "No sent messages.";
+        SentMessage longest = sentMessages.get(0);
+        for (SentMessage m : sentMessages) {
+            if (m.getMessageText().length() > longest.getMessageText().length()) longest = m;
+        }
+        return longest.toString();
+    }
+
+    public String searchById(String id) {
+        for (SentMessage m : sentMessages) {
+            if (m.getId().equals(id)) return m.toString();
+        }
+        return "No message with ID " + id;
+    }
+
+    public String searchByRecipient(String recipient) {
+        StringBuilder sb = new StringBuilder();
+        for (SentMessage m : sentMessages) {
+            if (m.getRecipient().equals(recipient)) sb.append(m).append("\n\n");
+        }
+        return sb.length() == 0 ? "No message sent to " + recipient : sb.toString();
+    }
+
+    public String deleteByHash(int hash) {
+        for (SentMessage m : sentMessages) {
+            if (m.getHash() == hash) {
+                sentMessages.remove(m);
+                return "Deleted message with hash: " + hash;
+            }
+        }
+        return "No message found with hash: " + hash;
+    }
+
+    public String reportAll() {
+        return viewSentMessages(); // Same for now
+    }
+}
