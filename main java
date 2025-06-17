@@ -4,7 +4,7 @@ public class Main {
     public static void main(String[] args) {
         MessageApp app = new MessageApp();
 
-        // Add test data
+        // Test data information
         SentMessage msg1 = new SentMessage("+27834557896", "Did you get the cake?");
         StoredMessage msg2 = new StoredMessage("+27838884567", "Where are you? You are late! I have asked you to be on time.");
         DisregardedMessage msg3 = new DisregardedMessage("+27834484567", "Yohoooo, I am at your gate.");
@@ -13,7 +13,7 @@ public class Main {
         app.addMessage(msg2);
         app.addMessage(msg3);
 
-        // Menu Loop
+        // A Menu Loop
         String[] options = {
                 "1. View Sent Messages",
                 "2. View Longest Sent Message",
